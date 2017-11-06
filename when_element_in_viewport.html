@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>One pagers</title>
+<style>
+body{
+	padding: 25px;
+	background-color: #ee9;
+	color: #333;
+	font-family: roboto,sans-serif;
+	overflow-x: hidden;
+}
+.hide{
+	margin-left: 500px;
+	opacity: 0;
+	 -webkit-transition: all 2s ease-in-out;
+	  -moz-transition: all 2s ease-in-out;
+	  -o-transition: all 2s ease-in-out;
+	  transition: all 2s ease-in-out;
+	  background-color: #000;
+}
+.animate{
+	margin-left: 0px;
+	opacity: 1;
+	 -webkit-transition: all 2s ease-in-out;
+  -moz-transition: all 2s ease-in-out;
+  -o-transition: all 2s ease-in-out;
+  transition: all 2s ease-in-out;
+}
+#scroll{
+	position: fixed;
+	background-color: #fff;
+	top: 0px;
+}
+.paralax{
+	height: 250px;
+    background: url("cubic_bezier.png");
+    background-position-Y: 0px;
+	background-repeat: repeatxy;
+}
+</style>
+
+</head>
+<body>
+	<div id="scroll"> scroll, please!
+	</div>
+	<h1>Animation in one pagers</h1>
+	<div id="content">
+	</div>
+	<script>
+		var scrollObject = {};
+		var i,str="<br>";
+		for(i=0;i<20;i++)
+		{
+			if(i==2)
+			{
+						str+="<div id='paralax' class='paralax'>PARALAX effect</div>";
+			}else{
+						str+="<div id='div"+i+"'>An animateable divje!</div>";
+			}
+			for(var j=0;j<100;j++)
+			{
+				str+="page lengthener  <br>";
+			}
+		}
+		document.getElementById("content").innerHTML=str;
+		window.onscroll = doScrollStuff;
+
+		
+		function isElementInViewportY (el) {
+
+			var rect = el.getBoundingClientRect();
+			return (
+				rect.top >= 0 &&
+				rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) /*or $(window).height() */
+			);
+		}
+		function doScrollStuff()
+		{
+			getScrollPosition(); // puts the scroll position in the scrollObject and shows it..
+			// check if any of our divs are in the viewport.
+			var i;
+			for(i=0;i<20;i++)
+			{
+				if(i!=2)
+				{
+					var el=document.getElementById("div"+i);
+					if(isElementInViewportY(el))
+					{
+						if(el.className!="animate")
+						{
+							el.className="animate";
+							console.log("start animation for: "+el.id);
+						}
+					}else{
+						if(el.className!="hide")
+						{
+							el.className="hide";
+							console.log("hide: "+el.id);
+						}
+					}
+				}else{
+					// this is the paralax!
+					var el=document.getElementById("paralax");
+					var pos=Math.floor(scrollObject.y/2)+"px"; // if you don't divide by a number, you get the effect of standing still.. This is the 'shifting layer' effect.
+					el.style.backgroundPositionY=pos
+				}
+			}
+		}
+		
+		function getScrollPosition(){
+			scrollObject = {
+			   x: window.pageXOffset,
+			   y: window.pageYOffset
+			}
+			document.getElementById("scroll").innerHTML="De huidige scrollpositie (y) = "+scrollObject.y;
+			// If you want to check distance
+			if(scrollObject.y > 500) {
+				// add class
+				
+			} else {
+				// remove class
+			}
+		}
+	</script>
+</body>
+</html>
