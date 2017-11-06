@@ -1,0 +1,98 @@
+<!doctype HTML>
+<html>
+<head>
+<style>
+html, body{
+height: 100%;
+padding: 0px;
+margin: 0;
+}
+</style>
+</head>
+<body>
+<div id="page_biggifyer" style="opacity: 0; height: 800%; width: 10%; background-color: #000;"></div>
+<div id="laag1" style="position: fixed; top: 0px;">
+ test<br>
+ test<br>
+ test<br>
+ test<br>
+ test<br>
+ test<br>
+ test<br>
+ 
+ </div>
+<div id="laag2"  class="paralax" scrollspeed="45" style="position: fixed; top: 0px;">
+ test<br>
+ test<br>
+ test<br>
+ test<br>
+ test<br>
+ test<br>
+ test<br>
+ 
+ </div>
+<div id="laag2"  class="paralax" scrollspeed="15"  style="position: fixed; top: 0px;">
+ test<br>
+ test<br>
+ test<br>
+ test<br>
+ test<br>
+ test<br>
+ test<br>
+ 
+ </div>
+<script>
+
+window.addEventListener("scroll",userScrolls);
+userScrolls();
+
+function userScrolls(ev)
+{
+	var body = document.body,
+    html = document.documentElement;
+
+	var height = Math.max( body.scrollHeight, body.offsetHeight, 
+                       html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+	// hoogte van document is height.
+	var viewport_height=window.innerHeight;
+	// hoogte van window.
+	var total_scroll=height-window.innerHeight;
+	// total scroll is zover als ik kan scrollen, dus total
+	time=window.scrollY/total_scroll; // tussen 0 en 1.
+	
+	// laat dingen reageren op de tijd..
+	// bijzondere laag 1..
+	controlLaag1(time);// dit doe je om het beheersbaar 
+	controlParalaxLayers(time);
+}
+function controlParalaxLayers(time)
+{
+	var paralax_class_layers=document.getElementsByClassName("paralax");
+	var i;
+	for(i=0;i<paralax_class_layers.length;i++)
+	{
+		var laag=paralax_class_layers[i];
+		var speed=parseFloat(laag.getAttribute("scrollspeed"));
+		laag.style.top=-time*speed+"px";
+	}
+}
+
+function controlLaag1(time)
+{
+	var laag1=document.getElementById("laag1");
+//	console.log("laag 1 time: "+time);
+	if(time<0.25)
+	{
+		laag1.style.top=-time*200+"px";
+		laag1.style.left="100px";
+	}else
+	{
+		laag1.style.left=100+(time-0.25)*200+"px";
+		laag1.style.top=-50+"px";
+	}
+
+}
+</script>
+</body>
+</html>
